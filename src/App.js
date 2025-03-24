@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Container, Box, Typography, Link } from '@mui/material';
 import LoginForm from './components/LoginForm';
@@ -13,7 +12,7 @@ const App = () => {
 
   return (
     <Container maxWidth="lg" sx={{ display: 'flex', minHeight: '100vh', alignItems: 'center' }}>
-      {/* Coluna da Imagem */}
+
       <Box
         sx={{
           flex: 1,
@@ -31,7 +30,6 @@ const App = () => {
         />
       </Box>
 
-      {/* Coluna do Formulário */}
       <Box
         sx={{
           flex: 1,
@@ -67,5 +65,3 @@ const App = () => {
 };
 
 export default App;
-
-

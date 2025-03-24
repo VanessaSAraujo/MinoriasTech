@@ -1,138 +1,130 @@
-// // import React from 'react';
-// // import { TextField, Button, Box } from '@mui/material';
-
-// // const LoginForm = () => {
-// //   return (
-// //     <Box
-// //       component="form"
-// //       sx={{
-// //         display: 'flex',
-// //         flexDirection: 'column',
-// //         alignItems: 'center',
-// //         '& .MuiTextField-root': { m: 1, width: '100%' },
-// //       }}
-// //     >
-// //       <TextField
-// //         label="Email ou telefone"
-// //         variant="outlined"
-// //         fullWidth
-// //         required
-        
-// //       />
-// //       <TextField
-// //         label="Senha"
-// //         type="password"
-// //         variant="outlined"
-// //         fullWidth
-// //         required
-// //       />
-// //       <Button
-// //         variant="contained"
-// //         color="primary"
-// //         sx={{ mt: 2, width: '100%' }}
-// //       >
-// //         Entrar
-// //       </Button>
-// //     </Box>
-// //   );
-// // };
-
-// // export default LoginForm;
-
-// import React from 'react';
-// import { TextField, Button, Box } from '@mui/material';
-
-// const LoginForm = () => {
-//   return (
-//     <Box
-//       component="form"
-//       sx={{
-//         display: 'flex',
-//         flexDirection: 'column',
-//         alignItems: 'center',
-//         '& .MuiTextField-root': { m: 1, width: '100%' },
-//       }}
-//     >
-//       <TextField
-//         label="Email ou telefone"
-//         variant="outlined"
-//         fullWidth
-//         required
-//         slotProps={{
-//             inputLabel: {
-//               style: { fontSize: '1rem' }, // Aumenta o tamanho do label
-//         },
-//         }}
-//       />
-//       <TextField
-//         label="Senha"
-//         type="password"
-//         variant="outlined"
-//         fullWidth
-//         required
-//         slotProps={{
-//             inputLabel: {
-//               style: { fontSize: '1rem' }, // Aumenta o tamanho do label
-//         },
-//         }}
-//       />
-//       <Button
-//         variant="contained"
-//         color="primary"
-//         sx={{ mt: 2, width: '100%' }}
-//       >
-//         Entrar
-//       </Button>
-//     </Box>
-//   );
-// };
-
-// export default LoginForm;
-
-
-import React from 'react';
-import { TextField, Button, Box, Typography, Link } from '@mui/material';
+import React, { useState } from 'react';
+import { TextField, Button, Box, Snackbar, Alert, InputAdornment, IconButton } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { ThemeProvider } from '@mui/material';
+import { themeLogin } from '../theme';
+import useValidation from './useValidation';
+import usePasswordToggle from './usePasswordToggle';
 
 const LoginForm = () => {
+
+  const {
+    email,
+    emailError,
+    emailEmpty,
+    handleEmailChange,
+    password,
+    passwordError,
+    passwordEmpty,
+    handlePasswordChange,
+    handleBlur,
+  } = useValidation();
+
+  const { showPassword, handleClickShowPassword } = usePasswordToggle();
+
+  const [showFeedback, setShowFeedback] = useState(false);
+
+  const handleFormSubmit = () => {
+    handleBlur('email');
+    handleBlur('password');
+
+    if (!emailError && !emailEmpty && !passwordError && !passwordEmpty) {
+      setShowFeedback(true);
+    }
+  };
+
   return (
-    <Box
-      component="form"
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '100%', // Garante que o formulário se ajuste ao container pai
-        maxWidth: '400px', // Define um limite de largura para os campos
-        margin: '0 auto', // Centraliza o formulário
-      }}
-    >
-      <TextField
-        label="Email ou telefone"
-        variant="outlined"
-        required
-        sx={{ marginBottom: 2, width: '100%' }} // Largura total e espaçamento inferior
-      />
-      <TextField
-        label="Senha"
-        type="password"
-        variant="outlined"
-        required
-        sx={{ marginBottom: 3, width: '100%' }} // Largura total e espaçamento inferior
-      />
-      <Button
-        variant="contained"
-        color="primary"
+    <ThemeProvider theme={themeLogin}>
+      <Box
+        component="form"
         sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
           width: '100%',
-          padding: '10px 0', // Altura do botão
-          fontSize: '16px', // Tamanho da fonte
-          marginBottom: 2, // Espaçamento inferior
+          maxWidth: '400px',
+          margin: '0 auto',
         }}
       >
-        Entrar
-      </Button>
-    </Box>
+        <TextField
+          label="E-mail"
+          variant="outlined"
+          required
+          value={email}
+          onChange={handleEmailChange}
+          onBlur={() => handleBlur('email')}
+          error={emailError || emailEmpty}
+          helperText={
+            emailEmpty
+              ? 'O campo de e-mail não pode ficar em branco'
+              : emailError
+                ? 'Digite um e-mail correto'
+                : ''
+          }
+          sx={{ marginBottom: 2, width: '100%' }}
+        />
+        <TextField
+          label="Senha"
+          type={showPassword ? 'text' : 'password'}
+          variant="outlined"
+          required
+          value={password}
+          onChange={handlePasswordChange}
+          onBlur={() => handleBlur('password')}
+          error={passwordError || passwordEmpty}
+          helperText={
+            passwordEmpty
+              ? 'O campo de senha não pode ficar em branco'
+              : passwordError
+                ? 'A senha deve ter entre 8 e 15 caracteres'
+                : ''
+          }
+          sx={{ marginBottom: 3, width: '100%' }}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label={showPassword ? 'Esconder senha' : 'Mostrar senha'}
+                  onClick={handleClickShowPassword}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+        <Button
+          variant="contained"
+          // color="primary"
+          type="button"
+          sx={{
+            width: '100%',
+            padding: '10px 0',
+            fontSize: '16px',
+            fontWeight: '600',
+            marginBottom: 2,
+          }}
+          onClick={handleFormSubmit}
+        >
+          Entrar
+        </Button>
+        <Snackbar
+          open={showFeedback}
+          autoHideDuration={3000}
+          onClose={() => setShowFeedback(false)}
+        >
+          <Alert
+            onClose={() => setShowFeedback(false)}
+            severity="success"
+            sx={{ width: '100%' }}
+          >
+            Login feito com sucesso!
+          </Alert>
+        </Snackbar>
+      </Box>
+    </ThemeProvider>
   );
 };
 
