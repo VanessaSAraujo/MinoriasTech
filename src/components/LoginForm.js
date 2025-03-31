@@ -3,40 +3,22 @@ import { TextField, Button, Box, Snackbar, Alert, InputAdornment, IconButton } f
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { ThemeProvider } from '@mui/material';
 import { themeLogin } from '../theme';
-import useValidation from './useValidation';
-import usePasswordToggle from './usePasswordToggle';
+import { colors } from '../theme';
+import useLoginValidation from './useLoginValidation';
 
 const LoginForm = () => {
-
-  const {
-    email,
-    emailError,
-    emailEmpty,
-    handleEmailChange,
-    password,
-    passwordError,
-    passwordEmpty,
-    handlePasswordChange,
-    handleBlur,
-  } = useValidation();
-
-  const { showPassword, handleClickShowPassword } = usePasswordToggle();
-
   const [showFeedback, setShowFeedback] = useState(false);
+  const { fields, errors, onSubmit, showPassword, toggleShowPassword } = useLoginValidation();
 
-  const handleFormSubmit = () => {
-    handleBlur('email');
-    handleBlur('password');
-
-    if (!emailError && !emailEmpty && !passwordError && !passwordEmpty) {
-      setShowFeedback(true);
-    }
+  const handleFormSubmit = (data) => {
+    setShowFeedback(true);
   };
 
   return (
     <ThemeProvider theme={themeLogin}>
       <Box
         component="form"
+        onSubmit={onSubmit(handleFormSubmit)}
         sx={{
           display: 'flex',
           flexDirection: 'column',
@@ -50,44 +32,34 @@ const LoginForm = () => {
         <TextField
           label="E-mail"
           variant="outlined"
-          required
-          value={email}
-          onChange={handleEmailChange}
-          onBlur={() => handleBlur('email')}
-          error={emailError || emailEmpty}
-          helperText={
-            emailEmpty
-              ? 'O campo de e-mail não pode ficar em branco'
-              : emailError
-                ? 'Digite um e-mail correto'
-                : ''
-          }
+          {...fields.email}
+          error={!!errors.email}
+          helperText={errors.email?.message}
           sx={{ marginBottom: 2, width: '100%' }}
         />
+
         <TextField
           label="Senha"
           type={showPassword ? 'text' : 'password'}
           variant="outlined"
-          required
-          value={password}
-          onChange={handlePasswordChange}
-          onBlur={() => handleBlur('password')}
-          error={passwordError || passwordEmpty}
-          helperText={
-            passwordEmpty
-              ? 'O campo de senha não pode ficar em branco'
-              : passwordError
-                ? 'A senha deve ter entre 8 e 15 caracteres'
-                : ''
-          }
+          inputProps={{ maxLength: 15 }}
+          {...fields.password}
+          error={!!errors.password}
+          helperText={errors.password?.message}
           sx={{ marginBottom: 3, width: '100%' }}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton
                   aria-label={showPassword ? 'Esconder senha' : 'Mostrar senha'}
-                  onClick={handleClickShowPassword}
+                  onClick={toggleShowPassword}
                   edge="end"
+                  sx={{
+                    color: errors.password ? colors.errorRed : colors.primaryPink, // Vermelho para erro
+                    '&:hover': {
+                      color: errors.password ? colors.errorRed : colors.hoverPink, // Vermelho para erro no hover
+                    },
+                  }}
                 >
                   {showPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
@@ -95,10 +67,10 @@ const LoginForm = () => {
             ),
           }}
         />
+
         <Button
           variant="contained"
-          // color="primary"
-          type="button"
+          type="submit"
           sx={{
             width: '100%',
             padding: '10px 0',
@@ -106,7 +78,6 @@ const LoginForm = () => {
             fontWeight: '600',
             marginBottom: 2,
           }}
-          onClick={handleFormSubmit}
         >
           Entrar
         </Button>
@@ -114,6 +85,7 @@ const LoginForm = () => {
           open={showFeedback}
           autoHideDuration={3000}
           onClose={() => setShowFeedback(false)}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }} // Define posição
         >
           <Alert
             onClose={() => setShowFeedback(false)}

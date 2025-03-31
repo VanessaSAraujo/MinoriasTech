@@ -16,7 +16,7 @@ const App = () => {
       <Box
         sx={{
           flex: 1,
-          display: { xs: 'none', md: 'flex' }, // Mostra apenas em telas médias ou maiores
+          display: { xs: 'none', md: 'flex' }, 
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
@@ -24,7 +24,7 @@ const App = () => {
         }}
       >
         <img
-          src="/minoria.png" // Caminho da imagem
+          src="/minoria.png" 
           alt="Minoria"
           style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px' }}
         />
@@ -46,7 +46,7 @@ const App = () => {
         {isLogin ? (
           <LoginForm />
         ) : (
-          <RegistrationForm />
+          <RegistrationForm handleToggleForm={handleToggleForm} />
         )}
         <Box mt={2} textAlign="center">
           {isLogin ? (

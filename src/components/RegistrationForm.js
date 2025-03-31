@@ -3,64 +3,26 @@ import { TextField, Button, Box, Snackbar, Alert, InputAdornment, IconButton } f
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { ThemeProvider } from '@mui/material';
 import { themeRegistration } from '../theme';
-import useValidation from './useValidation';
-import usePasswordToggle from './usePasswordToggle';
+import { colors } from '../theme';
+import useRegistrationValidation from './useRegistrationValidation';
 
-const RegistrationForm = () => {
-  // 
-  const {
-    name,
-    nameEmpty,
-    handleNameChange,
-    cpf,
-    cpfError,
-    cpfEmpty,
-    handleCpfChange,
-    email,
-    emailError,
-    emailEmpty,
-    handleEmailChange,
-    phone,
-    phoneError,
-    phoneEmpty,
-    handlePhoneChange,
-    password,
-    passwordError,
-    passwordEmpty,
-    handlePasswordChange,
-    handleBlur,
-  } = useValidation();
-  // 
-
-  const { showPassword, handleClickShowPassword } = usePasswordToggle();
-
+const RegistrationForm = ({ handleToggleForm }) => {
   const [showFeedback, setShowFeedback] = useState(false);
 
-  const handleFormSubmit = () => {
-    handleBlur('name');
-    handleBlur('cpf');
-    handleBlur('email');
-    handleBlur('phone');
-    handleBlur('password');
+  const { fields, errors, onSubmit } = useRegistrationValidation();
 
-    if (
-      !nameEmpty &&
-      !cpfError &&
-      !cpfEmpty &&
-      !emailError &&
-      !emailEmpty &&
-      !phoneError &&
-      !phoneEmpty &&
-      !passwordError &&
-      !passwordEmpty) {
-      setShowFeedback(true);
-    }
+  const handleFormSubmit = (data) => {
+    setShowFeedback(true);
+    setTimeout(() => {
+      handleToggleForm();
+    }, 2000);
   };
 
   return (
     <ThemeProvider theme={themeRegistration}>
       <Box
         component="form"
+        onSubmit={onSubmit(handleFormSubmit)}
         sx={{
           display: 'flex',
           flexDirection: 'column',
@@ -74,99 +36,74 @@ const RegistrationForm = () => {
         <TextField
           label="Nome"
           variant="outlined"
-          required
-          value={name}
-          onChange={handleNameChange}
-          onBlur={() => handleBlur('name')}
-          error={nameEmpty}
-          helperText={nameEmpty ? 'O campo de nome não pode ficar em branco' : ''}
+          {...fields.name}
+          error={!!errors.name}
+          helperText={errors.name?.message}
           sx={{ marginBottom: 2, width: '100%' }}
         />
+
         <TextField
           label="CPF"
           variant="outlined"
-          required
-          value={cpf}
-          onChange={handleCpfChange}
-          onBlur={() => handleBlur('cpf')}
-          error={cpfError || cpfEmpty}
-          helperText={
-            cpfEmpty
-              ? 'O campo de CPF não pode ficar em branco'
-              : cpfError
-                ? 'Informe um CPF válido no formato 000.000.000-00'
-                : ''
-          }
+          inputProps={{ maxLength: 14 }}
+          {...fields.cpf}
+          error={!!errors.cpf}
+          helperText={errors.cpf?.message}
           sx={{ marginBottom: 2, width: '100%' }}
         />
-        <TextField
-          label="E-mail"
-          variant="outlined"
-          required
-          value={email}
-          onChange={handleEmailChange}
-          onBlur={() => handleBlur('email')}
-          error={emailError || emailEmpty}
-          helperText={
-            emailEmpty
-              ? 'O campo de e-mail não pode ficar em branco'
-              : emailError
-                ? 'Digite um e-mail correto'
-                : ''
-          }
-          sx={{ marginBottom: 2, width: '100%' }}
-        />
+
         <TextField
           label="Telefone"
           variant="outlined"
-          required
-          value={phone}
-          onChange={handlePhoneChange}
-          onBlur={() => handleBlur('phone')}
-          error={phoneError || phoneEmpty}
-          helperText={
-            phoneEmpty
-              ? 'O campo de telefone não pode ficar em branco'
-              : phoneError
-                ? 'Informe um telefone válido no formato (00) 0 0000-0000'
-                : ''
-          }
+          inputProps={{ maxLength: 15 }}
+          {...fields.phone}
+          error={!!errors.phone}
+          helperText={errors.phone?.message}
           sx={{ marginBottom: 2, width: '100%' }}
         />
+
+        <TextField
+          label="E-mail"
+          variant="outlined"
+          {...fields.email}
+          error={!!errors.email}
+          helperText={errors.email?.message}
+          sx={{ marginBottom: 2, width: '100%' }}
+        />
+
         <TextField
           label="Senha"
-          type={showPassword ? 'text' : 'password'}
+          type={fields.password.showPassword ? 'text' : 'password'}
           variant="outlined"
-          required
-          value={password}
-          onChange={handlePasswordChange}
-          onBlur={() => handleBlur('password')}
-          error={passwordError || passwordEmpty}
-          helperText={
-            passwordEmpty
-              ? 'O campo de senha não pode ficar em branco'
-              : passwordError
-                ? 'A senha deve ter entre 8 e 15 caracteres'
-                : ''
-          }
+          inputProps={{ maxLength: 15 }}
+          {...fields.password}
+          error={!!errors.password}
+          helperText={errors.password?.message}
           sx={{ marginBottom: 3, width: '100%' }}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton
-                  aria-label={showPassword ? 'Esconder senha' : 'Mostrar senha'}
-                  onClick={handleClickShowPassword}
+                  aria-label={fields.password.showPassword ? 'Esconder senha' : 'Mostrar senha'}
+                  onClick={fields.password.toggleShowPassword}
                   edge="end"
+                  sx={{
+                    color: errors.password ? colors.errorRed : colors.primaryBlue, 
+                    '&:hover': {
+                      color: errors.password ? colors.errorRed : colors.hoverBlue, 
+                    },
+                  }}
                 >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                  {fields.password.showPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
               </InputAdornment>
             ),
           }}
         />
+
         <Button
           variant="contained"
-          type="button"
+          type="submit"
           sx={{
             width: '100%',
             padding: '10px 0',
@@ -174,14 +111,15 @@ const RegistrationForm = () => {
             fontWeight: '600',
             marginBottom: 2,
           }}
-          onClick={handleFormSubmit}
         >
           Cadastrar
         </Button>
+
         <Snackbar
           open={showFeedback}
           autoHideDuration={3000}
           onClose={() => setShowFeedback(false)}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         >
           <Alert
             onClose={() => setShowFeedback(false)}
@@ -197,3 +135,4 @@ const RegistrationForm = () => {
 };
 
 export default RegistrationForm;
+

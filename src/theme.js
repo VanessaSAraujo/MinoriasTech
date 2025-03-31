@@ -1,158 +1,13 @@
-// import { createTheme } from '@mui/material/styles';
-
-// const baseTheme = createTheme({
-//   typography: {
-//     fontFamily: 'Roboto, sans-serif',
-//   },
-//   components: {
-//     MuiCssBaseline: {
-//       styleOverrides: {
-//         body: {
-//           backgroundImage: 'radial-gradient(circle,rgb(27, 45, 63) 0%, #0e1318 100%)',
-//           color: 'white',
-//           fontWeight: 600,
-//           minHeight: '100vh',
-//           margin: 0,
-//         },
-//       },
-//     },
-//     MuiInputLabel: {
-//       styleOverrides: {
-//         root: {
-//           color: 'white',
-//         },
-//       },
-//     },
-//     MuiOutlinedInput: {
-//       styleOverrides: {
-//         root: {
-//           '&:hover .MuiOutlinedInput-notchedOutline': {
-//             borderColor: 'white',
-//           },
-//         },
-//         notchedOutline: {
-//           borderColor: 'white',
-//         },
-//         input: {
-//           color: '#FFFFFF',
-//         },
-//       },
-//     },
-//     MuiLink: {
-//       styleOverrides: {
-//         root: {
-//           color: 'white',
-//           textDecoration: 'none',
-//           '&:hover': {
-//             color: '#8445ff',
-//           },
-//         },
-//       },
-//     },
-//     MuiFormHelperText: {
-//       styleOverrides: {
-//         root: {
-//           color: '#C0392B',
-//           fontWeight: '600',
-//         },
-//       },
-//     },
-//   },
-// });
-
-
-// const themeLogin = createTheme(baseTheme, {
-//   palette: {
-//     primary: {
-//       main: '#eb17a4',
-//     },
-//   },
-//   components: {
-//     MuiButton: {
-//       styleOverrides: {
-//         root: {
-//           color: '#ffcae5',
-//           '&:hover': {
-//             backgroundColor: '#d41675',
-//           },
-//         },
-//       },
-//     },
-//     MuiOutlinedInput: {
-//       styleOverrides: {
-//         root: {
-//           '&:hover .MuiOutlinedInput-notchedOutline': {
-//             borderColor: '#eb17a4',
-//           },
-//         },
-//       },
-//     },
-//     MuiIconButton: {
-//       styleOverrides: {
-//         root: {
-//           color: '#eb17a4',
-//           '&:hover': {
-//             color: '#d41675',
-//           },
-//         },
-//       },
-//     },
-//   },
-// });
-
-// const themeRegistration = createTheme(baseTheme, {
-//   palette: {
-//     primary: {
-//       main: '#17a4eb',
-//     },
-//   },
-//   components: {
-//     MuiButton: {
-//       styleOverrides: {
-//         root: {
-//           color: '#486166',
-//           fontWeight: '600',
-//           '&:hover': {
-//             backgroundColor: '#2AA5C6',
-//           },
-//         },
-//       },
-//     },
-//     MuiOutlinedInput: {
-//       styleOverrides: {
-//         root: {
-//           '&:hover .MuiOutlinedInput-notchedOutline': {
-//             borderColor: '#17a4eb',
-//           },
-//         },
-//       },
-//     },
-//     MuiIconButton: {
-//       styleOverrides: {
-//         root: {
-//           color: '#17a4eb',
-//           '&:hover': {
-//             color: '#3C8B9D',
-//           },
-//         },
-//       },
-//     },
-//   },
-// });
-
-// export { themeLogin, themeRegistration };
-// export default baseTheme; 
-
 import { createTheme } from '@mui/material/styles';
 
 const colors = {
   white: '#FFFFFF',
-  primaryPink: '#eb17a4',
-  hoverPink: '#d41675',
-  primaryBlue: '#17a4eb',
-  hoverBlue: '#1478a1',
+  primaryPink: '#e199e4',
+  hoverPink: '#cb7bce',
+  primaryBlue: '#4b52f2',
+  hoverBlue: '#383fcf',
   errorRed: '#C0392B',
-  linkHover: '#8445ff',
+  linkHover: '#ca6eff',
 };
 
 const baseTheme = createTheme({
@@ -163,7 +18,7 @@ const baseTheme = createTheme({
     MuiCssBaseline: {
       styleOverrides: {
         body: {
-          backgroundImage: 'radial-gradient(circle, rgb(27, 45, 63) 0%, #0e1318 100%)',
+          backgroundImage: 'linear-gradient(180deg, #000000, #0f0f10, #352c5e, #4b38ab)',
           color: colors.white,
           fontWeight: 600,
           minHeight: '100vh',
@@ -238,6 +93,9 @@ const themeLogin = createTheme(baseTheme, {
           '&:hover .MuiOutlinedInput-notchedOutline': {
             borderColor: colors.primaryPink,
           },
+          '&.Mui-error .MuiOutlinedInput-notchedOutline': {
+            borderColor: colors.errorRed,
+          },
         },
       },
     },
@@ -264,7 +122,6 @@ const themeRegistration = createTheme(baseTheme, {
     MuiButton: {
       styleOverrides: {
         root: {
-          // color: '#486166',
           color: colors.white,
           fontWeight: '600',
           '&:hover': {
@@ -278,6 +135,9 @@ const themeRegistration = createTheme(baseTheme, {
         root: {
           '&:hover .MuiOutlinedInput-notchedOutline': {
             borderColor: colors.primaryBlue,
+          },
+          '&.Mui-error .MuiOutlinedInput-notchedOutline': {
+            borderColor: colors.errorRed,
           },
         },
       },
@@ -297,3 +157,4 @@ const themeRegistration = createTheme(baseTheme, {
 
 export { themeLogin, themeRegistration };
 export default baseTheme;
+export { colors };
