@@ -2,7 +2,7 @@ import { createTheme } from '@mui/material/styles';
 
 const colors = {
   white: '#FFFFFF',
-  primaryPink: '#e199e4',
+  primaryPink: '#fcacff',
   hoverPink: '#cb7bce',
   primaryBlue: '#4b52f2',
   hoverBlue: '#383fcf',
@@ -80,7 +80,7 @@ const themeLogin = createTheme(baseTheme, {
     MuiButton: {
       styleOverrides: {
         root: {
-          color: colors.white,
+          color: '#641766',
           '&:hover': {
             backgroundColor: colors.hoverPink,
           },

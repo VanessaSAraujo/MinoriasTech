@@ -55,9 +55,9 @@ const LoginForm = () => {
                   onClick={toggleShowPassword}
                   edge="end"
                   sx={{
-                    color: errors.password ? colors.errorRed : colors.primaryPink, // Vermelho para erro
+                    color: errors.password ? colors.errorRed : colors.primaryPink, 
                     '&:hover': {
-                      color: errors.password ? colors.errorRed : colors.hoverPink, // Vermelho para erro no hover
+                      color: errors.password ? colors.errorRed : colors.hoverPink, 
                     },
                   }}
                 >

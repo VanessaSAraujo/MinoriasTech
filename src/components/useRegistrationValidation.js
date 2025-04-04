@@ -15,8 +15,7 @@ const useRegistrationValidation = (defaultValues = {}) => {
 
   const [showPassword, setShowPassword] = useState(false);
   const toggleShowPassword = () => setShowPassword((prev) => !prev);
-
-  // Funções para formatar valores
+  
   const formatCPF = (value) => {
     return value
       .replace(/\D/g, '') 
@@ -56,6 +55,23 @@ const useRegistrationValidation = (defaultValues = {}) => {
       showPassword, 
       toggleShowPassword, 
     },
+    confirmPassword: {
+      ...register('confirmPassword', {
+        required: 'O campo de confirmação de senha não pode ficar em branco',
+        validate: (value) => {
+          const passwordValue = getValues('password');
+          if (value !== passwordValue) {
+            return 'As senhas devem ser iguais';
+          }
+          if (value.length < 8 || value.length > 15) {
+            return 'As senhas estão iguais, mas precisam ter entre 8 e 15 caracteres';
+          }
+          return true; 
+        },
+      }),
+      showPassword,
+      toggleShowPassword,
+    },    
     cpf: register('cpf', {
       required: 'O campo de CPF não pode ficar em branco',
       validate: (value) =>
@@ -68,12 +84,12 @@ const useRegistrationValidation = (defaultValues = {}) => {
     phone: register('phone', {
       required: 'O campo de telefone não pode ficar em branco',
       validate: (value) => {
-        const numericValue = value.replace(/\D/g, ''); // Remove todos os caracteres não numéricos
+        const numericValue = value.replace(/\D/g, ''); 
         return numericValue.length === 11 || 'Telefone inválido';
       },
       onChange: (e) => {
         const formattedValue = formatPhone(e.target.value);
-        setValue('phone', formattedValue, { shouldValidate: true }); // Atualiza o valor e valida
+        setValue('phone', formattedValue, { shouldValidate: true }); 
       },
     }),    
     name: register('name', {

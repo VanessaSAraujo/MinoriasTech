@@ -88,9 +88,9 @@ const RegistrationForm = ({ handleToggleForm }) => {
                   onClick={fields.password.toggleShowPassword}
                   edge="end"
                   sx={{
-                    color: errors.password ? colors.errorRed : colors.primaryBlue, 
+                    color: errors.password ? colors.errorRed : colors.primaryBlue,
                     '&:hover': {
-                      color: errors.password ? colors.errorRed : colors.hoverBlue, 
+                      color: errors.password ? colors.errorRed : colors.hoverBlue,
                     },
                   }}
                 >
@@ -100,6 +100,37 @@ const RegistrationForm = ({ handleToggleForm }) => {
             ),
           }}
         />
+
+        <TextField
+          label="Confirmar Senha"
+          type={fields.confirmPassword.showPassword ? 'text' : 'password'}
+          variant="outlined"
+          inputProps={{ maxLength: 15 }}
+          {...fields.confirmPassword}
+          error={!!errors.confirmPassword}
+          helperText={errors.confirmPassword?.message}
+          sx={{ marginBottom: 3, width: '100%' }}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label={fields.confirmPassword.showPassword ? 'Esconder senha' : 'Mostrar senha'}
+                  onClick={fields.confirmPassword.toggleShowPassword}
+                  edge="end"
+                  sx={{
+                    color: errors.confirmPassword ? colors.errorRed : colors.primaryBlue,
+                    '&:hover': {
+                      color: errors.confirmPassword ? colors.errorRed : colors.hoverBlue,
+                    },
+                  }}
+                >
+                  {fields.confirmPassword.showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+
 
         <Button
           variant="contained"
