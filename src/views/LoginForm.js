@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { TextField, Button, Box, Snackbar, Alert, InputAdornment, IconButton } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { ThemeProvider } from '@mui/material';
-import { themeLogin } from '../theme';
-import { colors } from '../theme';
-import useLoginValidation from './useLoginValidation';
+import { themeLogin } from '../theme/theme';
+import { colors } from '../theme/theme';
+import useLoginValidation from '../models/useLoginValidation';
 
 const LoginForm = () => {
   const [showFeedback, setShowFeedback] = useState(false);

@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { TextField, Button, Box, Snackbar, Alert, InputAdornment, IconButton } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { ThemeProvider } from '@mui/material';
-import { themeRegistration } from '../theme';
-import { colors } from '../theme';
-import useRegistrationValidation from './useRegistrationValidation';
+import { themeRegistration } from '../theme/theme';
+import { colors } from '../theme/theme';
+import useRegistrationValidation from '../models/useRegistrationValidation';
 
 const RegistrationForm = ({ handleToggleForm }) => {
   const [showFeedback, setShowFeedback] = useState(false);

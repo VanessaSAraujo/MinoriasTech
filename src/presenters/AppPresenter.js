@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Container, Box, Typography, Link } from '@mui/material';
-import LoginForm from './components/LoginForm';
-import RegistrationForm from './components/RegistrationForm';
+import LoginForm from '../views/LoginForm';
+import RegistrationForm from '../views/RegistrationForm';
 
-const App = () => {
+const AppPresenter = () => {
   const [isLogin, setIsLogin] = useState(true);
 
   const handleToggleForm = () => {
@@ -12,11 +12,10 @@ const App = () => {
 
   return (
     <Container maxWidth="lg" sx={{ display: 'flex', minHeight: '100vh', alignItems: 'center' }}>
-
       <Box
         sx={{
           flex: 1,
-          display: { xs: 'none', md: 'flex' }, 
+          display: { xs: 'none', md: 'flex' },
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
@@ -24,7 +23,7 @@ const App = () => {
         }}
       >
         <img
-          src="/minoria.png" 
+          src="/minoria.png"
           alt="Minoria"
           style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px' }}
         />
@@ -64,4 +63,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default AppPresenter;
