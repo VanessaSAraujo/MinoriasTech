@@ -103,7 +103,7 @@ const RegistrationForm = ({ handleToggleForm }) => {
 
         <TextField
           label="Confirmar Senha"
-          type={fields.confirmPassword.showPassword ? 'text' : 'password'}
+          type={fields.confirmPassword.showConfirmPassword ? 'text' : 'password'}
           variant="outlined"
           inputProps={{ maxLength: 15 }}
           {...fields.confirmPassword}
@@ -114,8 +114,8 @@ const RegistrationForm = ({ handleToggleForm }) => {
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton
-                  aria-label={fields.confirmPassword.showPassword ? 'Esconder senha' : 'Mostrar senha'}
-                  onClick={fields.confirmPassword.toggleShowPassword}
+                  aria-label={fields.confirmPassword.showConfirmPassword ? 'Esconder senha' : 'Mostrar senha'}
+                  onClick={fields.confirmPassword.toggleShowConfirmPassword}
                   edge="end"
                   sx={{
                     color: errors.confirmPassword ? colors.errorRed : colors.primaryBlue,
@@ -124,7 +124,7 @@ const RegistrationForm = ({ handleToggleForm }) => {
                     },
                   }}
                 >
-                  {fields.confirmPassword.showPassword ? <VisibilityOff /> : <Visibility />}
+                  {fields.confirmPassword.showConfirmPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
               </InputAdornment>
             ),

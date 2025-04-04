@@ -10,25 +10,28 @@ const useRegistrationValidation = (defaultValues = {}) => {
     formState: { errors },
   } = useForm({
     defaultValues,
-    mode: 'onBlur', 
+    mode: 'onBlur',
   });
 
   const [showPassword, setShowPassword] = useState(false);
   const toggleShowPassword = () => setShowPassword((prev) => !prev);
-  
+
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const toggleShowConfirmPassword = () => setShowConfirmPassword((prev) => !prev);
+
   const formatCPF = (value) => {
     return value
-      .replace(/\D/g, '') 
-      .slice(0, 11) 
+      .replace(/\D/g, '')
+      .slice(0, 11)
       .replace(/(\d{3})(\d)/, '$1.$2')
-      .replace(/(\d{3})(\d)/, '$1.$2') 
-      .replace(/(\d{3})(\d{1,2})$/, '$1-$2'); 
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
   };
 
   const formatPhone = (value) => {
     return value
       .replace(/\D/g, '')
-      .slice(0, 11) 
+      .slice(0, 11)
       .replace(/(\d{2})(\d{1})(\d{4})(\d{4})/, '($1) $2 $3-$4');
   };
 
@@ -52,8 +55,8 @@ const useRegistrationValidation = (defaultValues = {}) => {
           message: 'A senha deve ter entre 8 e 15 caracteres',
         },
       }),
-      showPassword, 
-      toggleShowPassword, 
+      showPassword,
+      toggleShowPassword,
     },
     confirmPassword: {
       ...register('confirmPassword', {
@@ -66,12 +69,12 @@ const useRegistrationValidation = (defaultValues = {}) => {
           if (value.length < 8 || value.length > 15) {
             return 'As senhas estão iguais, mas precisam ter entre 8 e 15 caracteres';
           }
-          return true; 
+          return true;
         },
       }),
-      showPassword,
-      toggleShowPassword,
-    },    
+      showConfirmPassword,
+      toggleShowConfirmPassword,
+    },
     cpf: register('cpf', {
       required: 'O campo de CPF não pode ficar em branco',
       validate: (value) =>
@@ -84,14 +87,14 @@ const useRegistrationValidation = (defaultValues = {}) => {
     phone: register('phone', {
       required: 'O campo de telefone não pode ficar em branco',
       validate: (value) => {
-        const numericValue = value.replace(/\D/g, ''); 
+        const numericValue = value.replace(/\D/g, '');
         return numericValue.length === 11 || 'Telefone inválido';
       },
       onChange: (e) => {
         const formattedValue = formatPhone(e.target.value);
-        setValue('phone', formattedValue, { shouldValidate: true }); 
+        setValue('phone', formattedValue, { shouldValidate: true });
       },
-    }),    
+    }),
     name: register('name', {
       required: 'O campo de nome não pode ficar em branco',
     }),
